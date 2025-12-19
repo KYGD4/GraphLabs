@@ -1,0 +1,21 @@
+"""
+Constantes globales de l'application
+"""
+
+# Couleurs
+COLOR_NODE_DEFAULT = "#4A90E2"
+COLOR_NODE_SELECTED = "#FF9500"
+COLOR_NODE_HIGHLIGHTED = "#50C878"
+COLOR_EDGE_DEFAULT = "#333333"
+COLOR_EDGE_HIGHLIGHTED = "#FF6B6B"
+
+# Dimensions
+NODE_RADIUS = 25
+CANVAS_MIN_WIDTH = 600
+CANVAS_MIN_HEIGHT = 400
+TOOLBAR_HEIGHT = 40
+
+# Interface
+WINDOW_TITLE = "GraphLabs - Laboratoire de Théorie des Graphes"
+WINDOW_WIDTH = 1200
+WINDOW_HEIGHT = 800
