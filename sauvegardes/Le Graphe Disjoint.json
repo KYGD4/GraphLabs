@@ -1,0 +1,17 @@
+{
+  "directed": false,
+  "next_id": 5,
+  "nodes": [
+    { "id": 0, "x": 50, "y": 50, "label": "A", "color": "#4A90E2" },
+    { "id": 1, "x": 150, "y": 50, "label": "B", "color": "#4A90E2" },
+    { "id": 2, "x": 50, "y": 250, "label": "C", "color": "#50E3C2" },
+    { "id": 3, "x": 150, "y": 250, "label": "D", "color": "#50E3C2" },
+    { "id": 4, "x": 250, "y": 250, "label": "E", "color": "#50E3C2" }
+  ],
+  "edges": [
+    { "source": 0, "target": 1, "weight": 5, "directed": false, "color": "#333333" },
+    { "source": 2, "target": 3, "weight": 2, "directed": false, "color": "#333333" },
+    { "source": 3, "target": 4, "weight": 3, "directed": false, "color": "#333333" },
+    { "source": 2, "target": 4, "weight": 10, "directed": false, "color": "#333333" }
+  ]
+}

@@ -477,5 +477,141 @@ class GraphLibrary:
                 "Biparti (étudiants/stages)": GraphLibrary.create_bipartite_example,
                 "Coloration (emploi du temps)": GraphLibrary.create_coloring_example,
                 "DAG (ordonnancement tâches)": GraphLibrary.create_dag_example,
+            },
+            "Connexité & Cycles": {
+                "Graphe déconnecté (3 composantes)": GraphLibrary.create_disconnected,
+                "Avec cycle évident": GraphLibrary.create_with_cycle,
+                "Arbre (sans cycle)": GraphLibrary.create_tree_no_cycle,
+                "Circuit eulérien possible": GraphLibrary.create_eulerian_circuit,
+                "Chemin eulérien seulement": GraphLibrary.create_eulerian_path_only,
             }
         }
+    
+    # ====================  ====================
+
+    @staticmethod
+    def create_disconnected() -> Graph:
+        """
+        Graphe déconnecté (3 composantes)
+        Utile pour test des composantes connexes
+        """
+        graph = Graph(directed=False)
+        
+        # Composante 1 : Triangle
+        graph.add_node(100, 150, "A")
+        graph.add_node(200, 100, "B")
+        graph.add_node(200, 200, "C")
+        graph.add_edge(0, 1, 1)
+        graph.add_edge(1, 2, 1)
+        graph.add_edge(2, 0, 1)
+        
+        # Composante 2 : Chaîne
+        graph.add_node(350, 150, "D")
+        graph.add_node(450, 150, "E")
+        graph.add_edge(3, 4, 1)
+        
+        # Composante 3 : Sommet isolé
+        graph.add_node(300, 300, "F")
+        
+        return graph
+    
+    @staticmethod
+    def create_with_cycle() -> Graph:
+        """
+        Graphe simple avec un cycle évident
+        Utile pour détection de cycles
+        """
+        graph = Graph(directed=False)
+        
+        # Carré avec diagonale
+        graph.add_node(150, 150, "A")
+        graph.add_node(350, 150, "B")
+        graph.add_node(350, 350, "C")
+        graph.add_node(150, 350, "D")
+        
+        # Cycle : A-B-C-D-A
+        graph.add_edge(0, 1, 1)
+        graph.add_edge(1, 2, 1)
+        graph.add_edge(2, 3, 1)
+        graph.add_edge(3, 0, 1)
+        
+        # Une arête supplémentaire
+        graph.add_edge(0, 2, 2)  # Diagonale
+        
+        return graph
+    
+    @staticmethod
+    def create_tree_no_cycle() -> Graph:
+        """
+        Arbre (pas de cycle)
+        Utile pour vérifier détection
+        """
+        graph = Graph(directed=False)
+        
+        # Arbre simple
+        graph.add_node(250, 100, "A")    # Racine
+        graph.add_node(150, 200, "B")
+        graph.add_node(350, 200, "C")
+        graph.add_node(100, 300, "D")
+        graph.add_node(200, 300, "E")
+        graph.add_node(300, 300, "F")
+        graph.add_node(400, 300, "G")
+        
+        graph.add_edge(0, 1, 1)  # A-B
+        graph.add_edge(0, 2, 1)  # A-C
+        graph.add_edge(1, 3, 1)  # B-D
+        graph.add_edge(1, 4, 1)  # B-E
+        graph.add_node(2, 5, 1)  # C-F
+        graph.add_edge(2, 6, 1)  # C-G
+        
+        return graph
+    
+    @staticmethod
+    def create_eulerian_circuit() -> Graph:
+        """
+        Graphe avec circuit eulérien
+        Tous les sommets de degré pair
+        """
+        graph = Graph(directed=False)
+        
+        # Hexagone (tous les sommets degré 2)
+        n = 6
+        radius = 150
+        cx, cy = 300, 250
+        
+        for i in range(n):
+            angle = 2 * math.pi * i / n - math.pi / 2
+            x = cx + radius * math.cos(angle)
+            y = cy + radius * math.sin(angle)
+            graph.add_node(x, y)
+        
+        # Cycle
+        for i in range(n):
+            graph.add_edge(i, (i + 1) % n, 1)
+        
+        return graph
+    
+    @staticmethod
+    def create_eulerian_path_only() -> Graph:
+        """
+        Graphe avec chemin eulérien mais pas circuit
+        Exactement 2 sommets de degré impair
+        """
+        graph = Graph(directed=False)
+        
+        # Chaîne simple (extrémités = degré 1 impair)
+        positions = [
+            (100, 250, "A"),   # Degré 1 (impair)
+            (200, 250, "B"),   # Degré 2
+            (300, 250, "C"),   # Degré 2
+            (400, 250, "D"),   # Degré 2
+            (500, 250, "E"),   # Degré 1 (impair)
+        ]
+        
+        for i, (x, y, label) in enumerate(positions):
+            graph.add_node(x, y, label)
+        
+        for i in range(4):
+            graph.add_edge(i, i + 1, 1)
+        
+        return graph

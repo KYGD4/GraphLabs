@@ -1,0 +1,19 @@
+{
+  "directed": false,
+  "next_id": 5,
+  "nodes": [
+    { "id": 0, "x": 100, "y": 300, "label": "Sol G", "color": "#4A90E2" },
+    { "id": 1, "x": 300, "y": 300, "label": "Sol D", "color": "#4A90E2" },
+    { "id": 2, "x": 100, "y": 150, "label": "Mur G", "color": "#D0021B" },
+    { "id": 3, "x": 300, "y": 150, "label": "Mur D", "color": "#D0021B" },
+    { "id": 4, "x": 200, "y": 50, "label": "Toit", "color": "#4A90E2" }
+  ],
+  "edges": [
+    { "source": 0, "target": 1, "weight": 1, "directed": false, "color": "#333333" },
+    { "source": 0, "target": 2, "weight": 1, "directed": false, "color": "#333333" },
+    { "source": 1, "target": 3, "weight": 1, "directed": false, "color": "#333333" },
+    { "source": 2, "target": 3, "weight": 1, "directed": false, "color": "#333333" },
+    { "source": 2, "target": 4, "weight": 1, "directed": false, "color": "#333333" },
+    { "source": 3, "target": 4, "weight": 1, "directed": false, "color": "#333333" }
+  ]
+}

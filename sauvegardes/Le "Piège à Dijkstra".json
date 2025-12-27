@@ -1,0 +1,17 @@
+{
+  "directed": true,
+  "next_id": 4,
+  "nodes": [
+    { "id": 0, "x": 100, "y": 200, "label": "Start", "color": "#7ED321" },
+    { "id": 1, "x": 300, "y": 100, "label": "Via", "color": "#4A90E2" },
+    { "id": 2, "x": 500, "y": 200, "label": "End", "color": "#D0021B" },
+    { "id": 3, "x": 300, "y": 300, "label": "Loop", "color": "#4A90E2" }
+  ],
+  "edges": [
+    { "source": 0, "target": 2, "weight": 10, "directed": true, "color": "#999999" },
+    { "source": 0, "target": 1, "weight": 1, "directed": true, "color": "#333333" },
+    { "source": 1, "target": 2, "weight": 2, "directed": true, "color": "#333333" },
+    { "source": 1, "target": 3, "weight": 1, "directed": true, "color": "#333333" },
+    { "source": 3, "target": 0, "weight": 1, "directed": true, "color": "#333333" }
+  ]
+}

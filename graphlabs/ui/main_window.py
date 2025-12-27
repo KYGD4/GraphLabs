@@ -17,6 +17,9 @@ from graphlabs.ui.canvas import GraphCanvas
 from graphlabs.algorithms.traversal.dfs import DFSModule
 from graphlabs.algorithms.traversal.bfs import BFSModule
 from graphlabs.algorithms.shortest_path.dijkstra import DijkstraModule
+from graphlabs.algorithms.connectivity.connected_components import ConnectedComponentsModule
+from graphlabs.algorithms.cycles.cycle_detection import CycleDetectionModule
+from graphlabs.algorithms.cycles.eulerian import EulerianModule
 from graphlabs.utils.file_handler import FileHandler
 from graphlabs.utils.graph_library import GraphLibrary
 
@@ -185,6 +188,11 @@ class GraphLabsWindow(QMainWindow):
             "DFS - Parcours en Profondeur": DFSModule,
             "BFS - Parcours en Largeur": BFSModule,
             "Dijkstra - Plus Court Chemin": DijkstraModule,
+            "--- Connexité ---": None,
+            "Composantes Connexes": ConnectedComponentsModule,
+            "--- Cycles ---": None,
+            "Détection de Cycles": CycleDetectionModule,
+            "Circuit Eulérien": EulerianModule,
         }
         self.algo_combo.addItems(self.algorithms.keys())
         self.algo_combo.currentTextChanged.connect(self.update_description)
@@ -349,10 +357,17 @@ class GraphLabsWindow(QMainWindow):
     def update_description(self):
         """Met à jour la description de l'algorithme sélectionné"""
         algo_name = self.algo_combo.currentText()
+        
+        # Ignorer les séparateurs
+        if algo_name.startswith("---"):
+            self.algo_description.setText("")
+            return
+            
         if algo_name in self.algorithms:
             module_class = self.algorithms[algo_name]
-            module = module_class(self.graph, self.canvas)
-            self.algo_description.setText(module.get_description())
+            if module_class is not None:
+                module = module_class(self.graph, self.canvas)
+                self.algo_description.setText(module.get_description())
             
     def run_algorithm(self):
         """Exécute l'algorithme sélectionné"""
@@ -361,7 +376,15 @@ class GraphLabsWindow(QMainWindow):
             return
         
         algo_name = self.algo_combo.currentText()
-        if algo_name in self.algorithms:
+        
+        # Ignorer les séparateurs
+        if algo_name.startswith("---"):
+            return
+        
+        # Réinitialiser les couleurs avant chaque algorithme
+        self._reset_graph_colors()
+            
+        if algo_name in self.algorithms and self.algorithms[algo_name] is not None:
             module_class = self.algorithms[algo_name]
             module = module_class(self.graph, self.canvas)
             
@@ -380,6 +403,22 @@ class GraphLabsWindow(QMainWindow):
                 error_msg = f"Erreur lors de l'exécution:\n{str(e)}\n\n{traceback.format_exc()}"
                 QMessageBox.critical(self, "Erreur", error_msg)
                 print(error_msg)
+    
+    def _reset_graph_colors(self):
+        """Réinitialise les couleurs des sommets et arêtes à leur état par défaut"""
+        from graphlabs.core.constants import COLOR_NODE_DEFAULT, COLOR_EDGE_DEFAULT
+        
+        # Réinitialiser couleurs des sommets
+        for node in self.graph.nodes.values():
+            node.color = COLOR_NODE_DEFAULT
+        
+        # Réinitialiser couleurs des arêtes
+        for edge in self.graph.edges:
+            edge.color = COLOR_EDGE_DEFAULT
+        
+        # Effacer les surbrillances
+        self.canvas.clear_highlights()
+        self.canvas.update()
                 
     def load_from_library(self, graph_func, graph_name: str):
         """Charge un graphe depuis la bibliothèque"""
